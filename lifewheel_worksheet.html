@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ライフホイール</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #FAFAF8; color: #2C3E50; padding: 40px 32px; }
+  h1 { font-size: 22px; font-weight: 600; color: #2C3E50; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #7F8C8D; margin-bottom: 36px; line-height: 1.6; }
+  .main { display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap; }
+  .wheel-wrap { flex: 0 0 360px; }
+  .controls { flex: 1; min-width: 260px; }
+  .item { margin-bottom: 20px; }
+  .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .item-label { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .score-display { font-size: 13px; font-weight: 600; min-width: 36px; text-align: right; }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px; border-radius: 2px; outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%; background: white;
+    box-shadow: 0 0 0 2px currentColor; cursor: pointer;
+  }
+  .memo-wrap { margin-top: 8px; }
+  .memo { width: 100%; font-size: 12px; padding: 6px 10px; border: 1px solid #E0E0E0; border-radius: 6px;
+    background: white; color: #2C3E50; resize: none; font-family: inherit; line-height: 1.5; }
+  .memo:focus { outline: none; border-color: #B0B0B0; }
+  .memo::placeholder { color: #B0B0B0; }
+  .section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #9E9E9E; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #EBEBEB; }
+  .total-bar { margin-top: 28px; padding: 16px 20px; background: white; border: 1px solid #EBEBEB; border-radius: 10px; }
+  .total-label { font-size: 12px; color: #9E9E9E; margin-bottom: 4px; }
+  .total-value { font-size: 28px; font-weight: 600; color: #2C3E50; }
+  .total-sub { font-size: 12px; color: #B0B0B0; margin-top: 2px; }
+  .insight { margin-top: 16px; padding: 14px 16px; background: #F5F7FA; border-radius: 8px; font-size: 13px; color: #5D6D7E; line-height: 1.6; }
+  .print-btn { margin-top: 24px; padding: 10px 20px; font-size: 13px; font-weight: 500; border: 1.5px solid #C0C0C0; border-radius: 8px; background: white; cursor: pointer; color: #555; width: 100%; }
+  .print-btn:hover { background: #F5F5F5; }
+  @media print {
+    body { padding: 20px; }
+    .print-btn { display: none; }
+    textarea { border-color: #E0E0E0 !important; }
+  }
+</style>
+</head>
+<body>
+
+<h1>ライフホイール</h1>
+<p class="subtitle">8つの領域それぞれについて、現在の満足度を10点満点で採点してください。<br>スコアを動かすと、ホイールがリアルタイムで更新されます。</p>
+
+<div class="main">
+  <div class="wheel-wrap">
+    <canvas id="wheel" width="360" height="360"></canvas>
+  </div>
+  <div class="controls">
+    <div class="section-title">満足度を採点する</div>
+    <div id="sliders"></div>
+    <div class="total-bar">
+      <div class="total-label">合計スコア</div>
+      <div class="total-value"><span id="total">40</span><span style="font-size:16px;font-weight:400;color:#9E9E9E"> / 80点</span></div>
+      <div class="total-sub" id="total-sub">平均 5.0 点</div>
+    </div>
+    <div class="insight" id="insight">スコアを入力すると、バランスの傾向がここに表示されます。</div>
+    <button class="print-btn" onclick="window.print()">印刷 / PDFで保存</button>
+  </div>
+</div>
+
+<script>
+const ITEMS = [
+  { key: 'health',   label: '健康',        en: 'Health',              color: '#4A90A4', placeholder: '気になっていること、改善したいことは？' },
+  { key: 'career',   label: '仕事・キャリア', en: 'Career',             color: '#7B9E87', placeholder: 'やりがいを感じる瞬間、不満に思うことは？' },
+  { key: 'finance',  label: 'お金・経済',   en: 'Finance',             color: '#E8956D', placeholder: '収入・貯蓄・お金への不安はありますか？' },
+  { key: 'relation', label: '人間関係',     en: 'Relationships',       color: '#9B59B6', placeholder: '友人・職場・恋愛など、満足度が高い／低い関係は？' },
+  { key: 'family',   label: '家族',        en: 'Family',              color: '#E67E22', placeholder: '家族との関係で大切にしていること・気がかりは？' },
+  { key: 'fun',      label: '趣味・楽しみ', en: 'Fun & Recreation',    color: '#1ABC9C', placeholder: '最近楽しめていること、もっとやりたいことは？' },
+  { key: 'growth',   label: '学び・成長',   en: 'Personal Growth',    color: '#3498DB', placeholder: '今、伸ばしたいスキルや学びたいことは？' },
+  { key: 'env',      label: '生活環境',     en: 'Physical Environment',color: '#95A5A6', placeholder: '住まい・街・生活リズムへの満足度は？' },
+];
+
+const scores = {};
+ITEMS.forEach(i => scores[i.key] = 5);
+
+const slidersEl = document.getElementById('sliders');
+ITEMS.forEach(item => {
+  const wrap = document.createElement('div');
+  wrap.className = 'item';
+  wrap.innerHTML = `
+    <div class="item-header">
+      <div class="item-label">
+        <span class="dot" style="background:${item.color}"></span>
+        <span>${item.label}</span>
+        <span style="font-size:11px;color:#B0B0B0">${item.en}</span>
+      </div>
+      <div class="score-display" id="score-${item.key}" style="color:${item.color}">5</div>
+    </div>
+    <input type="range" min="0" max="10" step="1" value="5" id="range-${item.key}"
+      style="accent-color:${item.color}; color:${item.color};">
+    <div class="memo-wrap">
+      <textarea class="memo" rows="2" placeholder="${item.placeholder}" id="memo-${item.key}"></textarea>
+    </div>
+  `;
+  slidersEl.appendChild(wrap);
+
+  const range = wrap.querySelector(`#range-${item.key}`);
+  const scoreEl = wrap.querySelector(`#score-${item.key}`);
+  range.addEventListener('input', () => {
+    scores[item.key] = parseInt(range.value);
+    scoreEl.textContent = range.value;
+    drawWheel();
+    updateInsight();
+  });
+});
+
+function drawWheel() {
+  const canvas = document.getElementById('wheel');
+  const ctx = canvas.getContext('2d');
+  const cx = 180, cy = 180, R = 155, n = ITEMS.length;
+  ctx.clearRect(0, 0, 360, 360);
+
+  const angleStep = (Math.PI * 2) / n;
+  const startAngle = -Math.PI / 2;
+
+  for (let ring = 1; ring <= 10; ring++) {
+    const r = (R / 10) * ring;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const a = startAngle + i * angleStep;
+      const x = cx + r * Math.cos(a);
+      const y = cy + r * Math.sin(a);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = ring === 5 ? '#D0D0D0' : '#E8E8E8';
+    ctx.lineWidth = ring === 5 ? 1.5 : 0.8;
+    ctx.stroke();
+  }
+
+  for (let i = 0; i < n; i++) {
+    const a = startAngle + i * angleStep;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
+    ctx.strokeStyle = '#E0E0E0';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+  }
+
+  ctx.beginPath();
+  ITEMS.forEach((item, i) => {
+    const score = scores[item.key];
+    const r = (R / 10) * score;
+    const a = startAngle + i * angleStep;
+    const x = cx + r * Math.cos(a);
+    const y = cy + r * Math.sin(a);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(74,144,164,0.15)';
+  ctx.fill();
+  ctx.strokeStyle = '#4A90A4';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ITEMS.forEach((item, i) => {
+    const score = scores[item.key];
+    const r = (R / 10) * score;
+    const a = startAngle + i * angleStep;
+    const x = cx + r * Math.cos(a);
+    const y = cy + r * Math.sin(a);
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = item.color;
+    ctx.fill();
+  });
+
+  ITEMS.forEach((item, i) => {
+    const a = startAngle + i * angleStep;
+    const labelR = R + 22;
+    const x = cx + labelR * Math.cos(a);
+    const y = cy + labelR * Math.sin(a);
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '600 11px Arial';
+    ctx.fillStyle = item.color;
+    ctx.fillText(item.label, x, y);
+    ctx.restore();
+  });
+}
+
+function updateInsight() {
+  const sorted = [...ITEMS].sort((a, b) => scores[b.key] - scores[a.key]);
+  const total = ITEMS.reduce((s, i) => s + scores[i.key], 0);
+  const avg = (total / ITEMS.length).toFixed(1);
+  document.getElementById('total').textContent = total;
+  document.getElementById('total-sub').textContent = `平均 ${avg} 点`;
+
+  const high = sorted.slice(0, 2).filter(i => scores[i.key] >= 6);
+  const low = sorted.slice(-3).filter(i => scores[i.key] <= 4).reverse();
+
+  let text = '';
+  if (high.length) text += `<strong>${high.map(i=>i.label).join('・')}</strong>は比較的満足している領域です。`;
+  if (low.length) text += `${text ? '<br>' : ''}<strong>${low.map(i=>i.label).join('・')}</strong>のスコアが低めです。転職で解決できる部分か、転職以外で改善できる部分かを面談で整理しましょう。`;
+  if (!high.length && !low.length) text = '全体的にバランスが取れています。どの領域をさらに伸ばしたいか考えてみましょう。';
+
+  document.getElementById('insight').innerHTML = text;
+}
+
+drawWheel();
+updateInsight();
+</script>
+</body>
+</html>
