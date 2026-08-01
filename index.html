@@ -14,9 +14,9 @@
   .scale-guide { display:flex; align-items:center; gap:12px; margin:20px 0 32px; padding:13px 16px; background:#f1f7f8; border:1px solid #dcebed; border-radius:10px; font-size:13px; }
   .scale-guide strong { color:#315f6b; }
   .guide-line { flex:1; height:4px; min-width:60px; border-radius:99px; background:linear-gradient(90deg,#cbd5da,#4a90a4); }
-  .main { display:grid; grid-template-columns:470px minmax(0,1fr); gap:42px; align-items:start; }
+  .main { display:grid; grid-template-columns:520px minmax(0,1fr); gap:42px; align-items:start; }
   .wheel-panel { position:sticky; top:24px; padding-top:26px; }
-  .wheel-wrap { width:460px; max-width:100%; aspect-ratio:1; }
+  .wheel-wrap { width:520px; max-width:100%; aspect-ratio:1; }
   canvas { width:100%; height:100%; display:block; }
   .section-title { margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--line); color:#7b8790; font-size:12px; font-weight:700; letter-spacing:.08em; }
   .item { margin-bottom:24px; }
@@ -33,9 +33,13 @@
   input[type=range] { width:100%; height:5px; margin:0; border-radius:99px; outline:none; cursor:pointer; appearance:none; -webkit-appearance:none; background:linear-gradient(90deg,#d9e0e3,#a7bac0); }
   input[type=range]::-webkit-slider-thumb { width:19px; height:19px; border:3px solid currentColor; border-radius:50%; background:white; box-shadow:0 1px 4px rgba(0,0,0,.12); cursor:pointer; appearance:none; -webkit-appearance:none; }
   input[type=range]::-moz-range-thumb { width:14px; height:14px; border:3px solid currentColor; border-radius:50%; background:white; box-shadow:0 1px 4px rgba(0,0,0,.12); cursor:pointer; }
-  .memo { width:100%; min-height:48px; margin-top:10px; padding:10px 12px; border:1px solid #dfe3e6; border-radius:7px; background:white; color:var(--ink); font:12px/1.55 inherit; resize:vertical; }
+  .memo { width:100%; min-height:92px; margin-top:10px; padding:11px 12px; border:1px solid #dfe3e6; border-radius:7px; background:white; color:var(--ink); font:12px/1.65 inherit; resize:vertical; overflow-wrap:anywhere; }
   .memo:focus { outline:2px solid #d6e8ec; border-color:#91b6bf; }
   .memo::placeholder { color:#a8afb4; }
+  .priority-box { margin:10px 0 26px; padding:18px 20px; border:1px solid #dce7e9; border-radius:10px; background:#f7fafb; }
+  .priority-box label { display:block; margin-bottom:5px; color:#3d6670; font-size:13px; font-weight:700; }
+  .priority-box p { margin:0 0 10px; color:#7b8790; font-size:11px; line-height:1.6; }
+  .priority-box select { width:100%; min-height:42px; padding:8px 36px 8px 12px; border:1px solid #cfdadd; border-radius:7px; background:white; color:var(--ink); font:13px inherit; }
   .total-bar { margin-top:30px; padding:18px 20px; border:1px solid var(--line); border-radius:10px; background:white; }
   .total-label { margin-bottom:4px; color:#8d979e; font-size:12px; }
   .total-value { font-size:30px; font-weight:700; }
@@ -47,13 +51,15 @@
   .advice-section:first-of-type { margin-top:0; }
   .advice-section h3 { margin:0 0 8px; color:#3d6670; font-size:14px; }
   .advice-section p { margin:0; }
+  .advice-section p + p { margin-top:10px; }
   .advice-section ul { margin:7px 0 0; padding-left:1.4em; }
   .advice-section li + li { margin-top:5px; }
   .reflection { padding:14px 16px; border-left:3px solid #8ab5bf; background:#f5f9fa; }
   .consultation { margin-top:26px; padding:20px 22px; border-radius:10px; background:#f3f1f8; color:#545067; }
   .consultation h3 { margin:0 0 9px; color:#61587b; font-size:15px; }
   .consultation p { margin:0; }
-  .consultation-btn { display:inline-flex; align-items:center; justify-content:center; min-height:46px; margin-top:14px; padding:11px 24px; border-radius:8px; background:#756a90; color:white; font-size:14px; font-weight:700; text-decoration:none; }
+  .consultation-btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; margin-top:14px; padding:11px 24px; border:0; border-radius:8px; background:#756a90; color:white; font:700 14px inherit; text-decoration:none; cursor:pointer; }
+  .consultation-btn:hover { background:#655a80; }
   .consultation-note { margin-top:8px !important; color:#807991; font-size:11px; }
   .save-guide { margin-top:24px; padding:22px 24px; border:1px solid #d8e6e9; border-radius:12px; background:#f3f8f9; }
   .save-guide h2 { margin:0 0 10px; color:#315f6b; font-size:16px; }
@@ -66,7 +72,7 @@
     body { padding:24px 16px 40px; }
     .main { grid-template-columns:1fr; gap:20px; }
     .wheel-panel { position:static; display:flex; justify-content:center; padding-top:0; }
-    .wheel-wrap { width:min(460px,100%); }
+    .wheel-wrap { width:min(520px,100%); }
     .scale-guide { flex-wrap:wrap; }
     .guide-line { order:3; flex-basis:100%; }
   }
@@ -77,6 +83,7 @@
     .range-end strong { font-size:11px; }
     .en { display:none; }
     .save-guide,.advice { padding:18px; }
+    .consultation-btn { width:100%; }
   }
   @media print {
     @page { size:A4 portrait; margin:10mm; }
@@ -88,14 +95,14 @@
     .item { break-inside:avoid; margin-bottom:12px; }
     .memo { min-height:34px; }
     .print-btn,.print-note { display:none; }
-    .advice-section,.consultation,.save-guide { break-inside:avoid; }
+    .priority-box,.advice-section,.consultation,.save-guide { break-inside:avoid; }
   }
 </style>
 </head>
 <body>
 <main class="page">
   <h1>ライフホイール</h1>
-  <p class="subtitle">8つの領域について、現在のあなたがどのくらい満足しているかを採点してください。<br>現在の満足度を直感で選びましょう。正解・不正解はありません。</p>
+  <p class="subtitle">8つの領域について、現在のあなたがどのくらい満足しているかを採点してください。<br>現在の満足度を、直感で選んでください。正解・不正解はありません。</p>
   <div class="scale-guide" aria-label="採点基準">
     <span><strong>1点</strong>＝不満足</span>
     <span class="guide-line" aria-hidden="true"></span>
@@ -104,11 +111,18 @@
 
   <div class="main">
     <section class="wheel-panel" aria-label="ライフホイールのグラフ">
-      <div class="wheel-wrap"><canvas id="wheel" width="480" height="480"></canvas></div>
+      <div class="wheel-wrap"><canvas id="wheel" width="540" height="540"></canvas></div>
     </section>
     <section class="controls">
       <div class="section-title">現在の満足度を1〜10点で採点する</div>
       <div id="sliders"></div>
+      <div class="priority-box">
+        <label for="priority-select">最初に整えたい項目（任意）</label>
+        <p>まだ決められない場合は、未選択のままで大丈夫です。</p>
+        <select id="priority-select">
+          <option value="">まだ決めていない</option>
+        </select>
+      </div>
       <div class="total-bar">
         <div class="total-label">合計スコア</div>
         <div class="total-value"><span id="total">40</span><span class="total-max"> / 80点</span></div>
@@ -117,9 +131,10 @@
       <section class="advice" id="advice" aria-live="polite"></section>
       <aside class="save-guide">
         <h2>診断結果を保存してください</h2>
-        <p>この診断に入力した情報は、<strong>ネット上には保存されません。</strong><br>
-        下のボタンから結果を必ず保存し、公式LINEへ送付してください。<br>
-        お一人おひとりのお悩みや理想を把握し、質問や不安がある際のキャリアアドバイスに反映させていただきます。</p>
+        <p>この診断で入力した内容は、<strong>インターネット上には保存されません。</strong><br>
+        ページを閉じると、診断結果を再度確認できなくなる場合があります。<br><br>
+        下記の保存ボタンから結果を必ず保存し、公式LINEへお送りください。<br>
+        お一人おひとりのお悩みや理想を把握し、今後のキャリアアドバイスや個別面談に反映させていただきます。</p>
         <button class="print-btn" type="button" onclick="window.print()">診断結果を印刷・PDFで保存する</button>
         <div class="print-note">保存画面で「PDFとして保存」を選択してください</div>
       </aside>
@@ -128,21 +143,124 @@
 </main>
 
 <script>
+/* 個別面談URLはここだけ変更してください。空欄でもエラーになりません。 */
 const CONSULTATION_URL='';
+
+const SCORE_GUIDANCE={
+  low:'今は少し負担や迷い、不満足感があるのかもしれません。一気に変えようとせず、最も負担の少ないことを一つだけ整理してみましょう。',
+  middle:'ある程度保てていることがある一方で、もう少し整えたい部分もありそうです。今の満足度を1点上げる小さな変化を考えてみましょう。',
+  high:'比較的満足度が高く、今の自分に合った工夫ができているようです。良い状態につながっていることを言葉にすると、続けやすくなります。',
+  veryHigh:'今のあなたにとって、充実を感じられている領域のようです。自然にできていることは、ほかの領域を考えるときのヒントにもなりそうです。'
+};
+
 const ITEMS=[
-  {key:'health',label:'健康（体／心）',chartLabel:'健康（体／心）',en:'Health',color:'#4A90A4',prompt:'体調・睡眠・運動などで気になっていること、理想の状態を書いてみましょう。',example:'例：毎日疲れが取れにくく、数字達成のストレスも多い。残業を減らし、休日は安心して眠り、家族と落ち着いて過ごせる心の余裕がほしい。',value:'心と身体の余裕',action:'今週中に10分だけ、心や身体の負担になっていることと、減らせそうなことを一つずつ書き出す',question:'無理なく過ごせる状態に近づくために、今減らせそうな負担は何ですか？',topic:'無理なく働き続けるための環境や過ごし方'},
-  {key:'career',label:'仕事・キャリア',chartLabel:'仕事・キャリア',en:'Career',color:'#7B9E87',prompt:'今の仕事で満足していること、不満に感じること。今後実現したい働き方を書いてみましょう。',example:'例：現状は人間関係に満足しているが、成長ややりがいを感じにくい。3年以内にマネジメントや育成を経験し、5年以内に正社員と副業を両立したい。',value:'成長や自分らしい働き方',action:'今週の日曜日に10分だけ、今の仕事で「続けたいこと」と「変えたいこと」を一つずつ書く',question:'今の仕事の満足度が1点上がるとしたら、何が変わっていますか？',topic:'今後の働き方やキャリアの方向性'},
-  {key:'finance',label:'お金・経済',chartLabel:'お金・経済',en:'Finance',color:'#E8956D',prompt:'収入・貯蓄・将来のお金についての不安と、目指したい状態を書いてみましょう。',example:'例：毎月の貯金ができず不安。将来は、家族と一緒に年2回旅行できるような収入を得たい。',value:'将来の安心や家族との経験',action:'今週15分だけ、現在のお金の不安と、実現したい暮らしに必要なことを分けて書く',question:'収入や働き方が少し整ったら、どのような時間を増やしたいですか？',topic:'収入への不安や今後の働き方'},
-  {key:'relation',label:'人間関係',chartLabel:'人間関係',en:'Relationships',color:'#9B59B6',prompt:'友人・職場・恋愛などの人間関係で、心地よいことや負担に感じることを書いてみましょう。',example:'例：職場の上司と仕事の進め方が合わず、個人成果重視で周囲もギスギスしている。チームで協力して進められる職場で働きたい。',value:'安心して協力できる関係',action:'今週10分だけ、負担を感じる場面と「本当はどう関わりたいか」を一つずつメモする',question:'どのような人や環境であれば、安心して力を発揮できそうですか？',topic:'職場での人間関係や自分に合う環境'},
-  {key:'family',label:'家族',chartLabel:'家族',en:'Family',color:'#E67E22',prompt:'家族との関係で大切にできていること、気がかりなこと、理想の関わり方を書いてみましょう。',example:'例：平日は帰りが遅く、忙しさから会話が減っている。平日もゆっくり話せる時間をつくりたい。',value:'家族との時間やつながり',action:'今週、家族と落ち着いて話す15分を一度だけ予定に入れる',question:'本当は、家族とどのような時間を増やしたいですか？',topic:'仕事と家族との時間のバランス'},
-  {key:'fun',label:'趣味・楽しみ',chartLabel:'趣味・楽しみ',en:'Fun & Recreation',color:'#1ABC9C',prompt:'最近楽しかったこと、できていないこと、これからもっと時間を使いたいことを書いてみましょう。',example:'例：休日も仕事のことを考えてしまう。趣味を持ち、家族との旅行も楽しめる心と時間の余裕がほしい。',value:'自分らしい時間や心の余白',action:'次の休日に15分だけ、以前楽しかったことを一つ試す予定を入れる',question:'仕事以外で、これから増やしたい「自分らしい時間」は何ですか？',topic:'自分らしい時間や日々の過ごし方'},
-  {key:'growth',label:'学び・成長',chartLabel:'学び・成長',en:'Personal Growth',color:'#3498DB',prompt:'成長を感じていること、伸ばしたいスキル、挑戦してみたいことを書いてみましょう。',example:'例：仕事がルーティン化している。営業だけでなく、マーケティングやマネジメントを学び、新しい仕事に挑戦したい。',value:'新しい学びや挑戦',action:'今週10分だけ、学びたいテーマを一つ選び、最初に見る記事や動画を決める',question:'今後の理想に近づくために、まず伸ばしたい力は何ですか？',topic:'これから伸ばしたいことやキャリアの方向性'},
-  {key:'env',label:'生活環境',chartLabel:'生活環境',en:'Physical Environment',color:'#95A5A6',prompt:'住まい・通勤・生活リズム・働く場所で、気になることと理想の環境を書いてみましょう。',example:'例：通勤時間が1.5時間と長く、平日にほとんど余裕がない。在宅勤務も取り入れ、自分や家族との時間を増やしたい。',value:'生活と仕事のバランス',action:'平日の中で最も負担を感じる時間帯を一つ選び、10分だけ減らせることを考える',question:'暮らしの満足度が1点上がるとしたら、毎日の何が変わっていますか？',topic:'日々の過ごし方や働く環境'}
+  {
+    key:'health',label:'健康（体/心）',chartLabel:'健康（体/心）',en:'Health',color:'#4A90A4',
+    prompt:'体調・睡眠・運動などで気になっていること、理想の状態を書いてみましょう。',
+    example:'例：毎日疲れが取れにくい。数字達成のストレスも多く、残業を減らし休日に安心して眠れる環境が欲しい。休日は、家族と落ち着いて遊びに行ける心の余裕がほしい。',
+    value:'心と身体の余裕',strength:'自分の心身の状態に気づき、整えようとする姿勢',
+    lowAction:'今週中に5分だけ、心や身体の負担になっていることを一つ書き、今週減らせそうな予定を一つ選ぶ',
+    midActions:['今週中に10分だけ、睡眠・休息・運動の中から一番整えやすいものを一つ選ぶ','寝る前に5分だけ、今日の疲れ具合とできたことを一つメモする'],
+    keepAction:'今週の日曜日に10分だけ、調子の良い日にできている工夫を一つ書き、翌週の予定に残す',
+    question:'無理なく過ごせる状態に近づくために、今減らせそうな負担は何ですか？',topic:'心と身体を整えるための働き方や、無理なく過ごすための工夫'
+  },
+  {
+    key:'career',label:'仕事・キャリア',chartLabel:'仕事・キャリア',en:'Career',color:'#7B9E87',
+    prompt:'今の仕事で満足していること、不満に感じること。今後実現したい働き方を書いてみましょう。',
+    example:'例：現状＝人間関係は満足しているが仕事での成長ややりがいを感じにくい。3年以内＝マネジメントや育成も経験し、新たな経験を積みたい。5年以内＝正社員と副業掛け持ちして、自由な働き方を手に入れたい。',
+    value:'成長や自分らしい働き方',strength:'仕事やこれからの働き方に向き合う姿勢',
+    lowAction:'今週の日曜日に10分だけ、今の仕事で「続けたいこと」と「変えたいこと」を一つずつ書く',
+    midActions:['今週10分だけ、今の仕事で満足していることと負担なことを一つずつ書く','3年後に増やしたい経験を一つ選び、最初の情報収集先を決める'],
+    keepAction:'今週10分だけ、仕事でうまくいっている理由を一つ書き、今後も続けたい工夫を確認する',
+    question:'今の仕事の満足度が1点上がるとしたら、何が変わっていますか？',topic:'今後の働き方やキャリアの方向性'
+  },
+  {
+    key:'finance',label:'お金・経済',chartLabel:'お金・経済',en:'Finance',color:'#E8956D',
+    prompt:'収入・貯蓄・将来のお金についての不安と、目指したい状態を書いてみましょう。',
+    example:'例：毎月の貯金ができず不安。将来は、家族と一緒に年2回は旅行できるような収入を得たい。',
+    value:'将来の安心や働き方の選択肢',strength:'将来の暮らしを具体的に考える力',
+    lowAction:'今週15分だけ、今感じているお金の不安と、実現したい暮らしを分けて一つずつ書く',
+    midActions:['今週10分だけ、収入・支出・貯蓄のうち一番気になるものを一つ確認する','理想の暮らしで増やしたい経験を一つだけ書く'],
+    keepAction:'月末に10分だけ、今うまくいっているお金の習慣を一つ確認して翌月にも残す',
+    question:'収入や働き方が少し整ったら、どのような時間を増やしたいですか？',topic:'収入への不安や、働き方と収入のバランス'
+  },
+  {
+    key:'relation',label:'人間関係',chartLabel:'人間関係',en:'Relationships',color:'#9B59B6',
+    prompt:'友人・職場・恋愛などの人間関係で、心地よいことや負担に感じることを書いてみましょう。',
+    example:'例：職場の上司と仕事の進め方が合わない。個人成果重視で、常に周囲もギスギスしている状態のため、チームとして協力して仕事を進めるような職場で仕事をしたい。',
+    value:'安心して協力できる関係',strength:'周囲との心地よい関わり方を考える姿勢',
+    lowAction:'今週10分だけ、負担を感じる場面と「本当はどう関わりたいか」を一つずつメモする',
+    midActions:['今週10分だけ、安心できる人と負担を感じる場面を一つずつ書く','伝えたい希望を「私は〜と感じています。できれば〜だと助かります」の形で一文にする'],
+    keepAction:'今週中に、心地よい関係につながっている関わり方を一つ書き、続けてみる',
+    question:'どのような人や環境であれば、安心して力を発揮できそうですか？',topic:'職場での人間関係や、自分に合う環境'
+  },
+  {
+    key:'family',label:'家族',chartLabel:'家族',en:'Family',color:'#E67E22',
+    prompt:'家族との関係で大切にできていること、気がかりなこと、理想の関わり方を書いてみましょう。',
+    example:'例：平日は帰りも遅く、忙しいため、会話が減っている。平日もゆっくり話せる時間をつくりたい。',
+    value:'家族との時間やつながり',strength:'身近な人との時間を大切にしようとする姿勢',
+    lowAction:'今週、家族と落ち着いて話す10分を一度だけカレンダーに入れる',
+    midActions:['今週一度だけ、家族と10分話す時間を予定に入れる','家族と増やしたい時間を一つメモして、希望を穏やかに伝える'],
+    keepAction:'今週中に、家族との良い時間につながっていることを一つ確認し、次回の予定を入れる',
+    question:'本当は、家族とどのような時間を増やしたいですか？',topic:'仕事と家族との時間のバランス'
+  },
+  {
+    key:'fun',label:'趣味・楽しみ',chartLabel:'趣味・楽しみ',en:'Fun & Recreation',color:'#1ABC9C',
+    prompt:'最近楽しかったこと、できていないこと、これからもっと時間を使いたいことを書いてみましょう。',
+    example:'例：休日も仕事のことを考えてしまう。趣味を持って、家族とも旅行を楽しめる、心と時間の余裕がほしい。',
+    value:'自分らしい時間や心の余白',strength:'自分らしい時間や楽しみを大切にする意識',
+    lowAction:'次の休日に10分だけ、以前楽しかったことを一つ試す予定を入れる',
+    midActions:['今週10分だけ、最近楽しかったことと今後したいことを一つずつ書く','次の休日に15分だけ、自分のための時間を予定に入れる'],
+    keepAction:'次の休日に、今の楽しみを続けるための時間を15分だけ先に確保する',
+    question:'仕事以外で、これから増やしたい「自分らしい時間」は何ですか？',topic:'自分らしい時間や、日常に楽しみを増やす方法'
+  },
+  {
+    key:'growth',label:'学び・成長',chartLabel:'学び・成長',en:'Personal Growth',color:'#3498DB',
+    prompt:'成長を感じていること、伸ばしたいスキル、挑戦してみたいことを書いてみましょう。',
+    example:'例：仕事がルーティン化している。営業だけでなく、マーケティングやマネジメントを学び、新しい仕事に挑戦したい。',
+    value:'新しい学びや挑戦',strength:'新しいことを学び、理想に近づこうとする姿勢',
+    lowAction:'今週10分だけ、学びたいテーマを一つ選び、最初に見る記事や動画を決める',
+    midActions:['今週10分だけ、伸ばしたいスキルを三つ以内に書く','その中から一つ選び、最初に見る記事や動画を一つ決める'],
+    keepAction:'今週中に、最近の学びが役立った場面を一つ書き、次に試したいことを決める',
+    question:'今後の理想に近づくために、まず伸ばしたい力は何ですか？',topic:'これから伸ばしたいことや、キャリアにつながる学び'
+  },
+  {
+    key:'env',label:'生活環境',chartLabel:'生活環境',en:'Physical Environment',color:'#95A5A6',
+    prompt:'住まい・通勤・生活リズム・働く場所で、気になることと理想の環境を書いてみましょう。',
+    example:'例：通勤時間が1.5時間と長く、平日ほとんど余裕がない。在宅勤務も取り入れて自分や家族との時間を増やしたい。',
+    value:'生活と仕事のバランス',strength:'暮らしや働く環境を整えようとする意識',
+    lowAction:'平日の中で最も負担を感じる時間帯を一つ選び、今週10分だけ減らせることを考える',
+    midActions:['今週10分だけ、通勤・住まい・生活リズムの中から一番気になることを選ぶ','理想の平日を一つの時間帯に絞って書く'],
+    keepAction:'日曜日に10分だけ、今の暮らしでうまくいっている工夫を一つ確認し、翌週にも残す',
+    question:'暮らしの満足度が1点上がるとしたら、毎日の何が変わっていますか？',topic:'日々の過ごし方や、生活と仕事のバランス'
+  }
 ];
+
+const CONTEXT_RULES=[
+  {key:'time',pattern:/時間がない|時間が取れ|忙し|残業|余裕がない|帰りが遅|通勤/,label:'時間や余白を増やしたい気持ち'},
+  {key:'future',pattern:/将来|今後|先が見え|不安|迷い/,label:'これからの見通しを整理したい気持ち'},
+  {key:'balance',pattern:/両立|バランス|仕事.*家族|仕事.*生活|休日.*仕事/,label:'仕事と生活のバランス'},
+  {key:'relation',pattern:/人間関係|上司|同僚|友人|恋愛|ギスギス|チーム|協力/,label:'人との心地よい関わり方'},
+  {key:'money',pattern:/収入|貯金|貯蓄|お金|副業|生活費/,label:'将来の安心と収入のバランス'},
+  {key:'growth',pattern:/成長|学び|挑戦|スキル|マネジメント|育成|ルーティン/,label:'成長や新しい経験'},
+  {key:'fatigue',pattern:/疲れ|眠れ|睡眠|しんど|つら|ストレス|頭がいっぱい|追われ/,label:'心と身体の余裕'},
+  {key:'unclear',pattern:/分からない|わからない|何から|やりたいことがない|決められない|整理できない/,label:'最初の一歩を整理したい気持ち'}
+];
+
+const SAFETY_PATTERN=/死にたい|死んでしまいたい|消えたい|自殺|自傷|生きていたくない|生きるのがつらい|殺されそう|暴力を受け|虐待され|今すぐ危険/;
+const HIGH_STRESS_PATTERN=/疲れ切|限界|何もできない|眠れない|眠れず|強い不安|とてもつら|頭がいっぱい|追われている|焦り|自分を責め|休めない/;
+const COGNITIVE_LOAD_PATTERN=/考えることが多|何から始め|計画しても続か|続かない|整理できない|頭がいっぱい|優先順位.*決められ|決められない/;
+
 const scores=Object.fromEntries(ITEMS.map(item=>[item.key,5]));
 const sliders=document.getElementById('sliders');
+const prioritySelect=document.getElementById('priority-select');
 
 ITEMS.forEach(item=>{
+  const option=document.createElement('option');
+  option.value=item.key;
+  option.textContent=item.label;
+  prioritySelect.appendChild(option);
+
   const wrap=document.createElement('div');
   wrap.className='item';
   wrap.innerHTML=`
@@ -155,161 +273,466 @@ ITEMS.forEach(item=>{
       <input aria-label="${item.label}の満足度" type="range" min="1" max="10" step="1" value="5" id="range-${item.key}" style="color:${item.color}">
       <span class="range-end"><strong>10</strong>満足</span>
     </div>
-    <textarea class="memo" rows="3" placeholder="${item.prompt}\n${item.example}" id="memo-${item.key}" aria-label="${item.label}についてのメモ"></textarea>`;
+    <textarea class="memo" rows="5" id="memo-${item.key}" aria-label="${item.label}についてのメモ"></textarea>`;
   sliders.appendChild(wrap);
+
   const range=wrap.querySelector('input');
+  const memo=wrap.querySelector('.memo');
+  memo.placeholder=`${item.prompt}\n\n${item.example}`;
   range.addEventListener('input',()=>{
     scores[item.key]=Number(range.value);
     wrap.querySelector('.score-display').innerHTML=`<b>${range.value}</b> / 10`;
-    drawWheel(); updateAdvice();
+    drawWheel();
+    updateAdvice();
   });
-  wrap.querySelector('.memo').addEventListener('input',updateAdvice);
+  memo.addEventListener('input',updateAdvice);
 });
+prioritySelect.addEventListener('change',updateAdvice);
 
 function drawWheel(){
-  const canvas=document.getElementById('wheel'),ctx=canvas.getContext('2d');
-  const size=480,c=size/2,R=160,n=ITEMS.length,step=Math.PI*2/n,start=-Math.PI/2;
+  const canvas=document.getElementById('wheel');
+  const ctx=canvas.getContext('2d');
+  if(!ctx) return;
+  const size=540;
+  const center=size/2;
+  const radius=170;
+  const labelRadius=224;
+  const count=ITEMS.length;
+  const step=Math.PI*2/count;
+  const start=-Math.PI/2;
   ctx.clearRect(0,0,size,size);
+
   for(let ring=1;ring<=10;ring++){
-    const r=R*ring/10; ctx.beginPath();
-    for(let i=0;i<n;i++){const a=start+i*step,x=c+r*Math.cos(a),y=c+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
-    ctx.closePath();ctx.strokeStyle=ring===5?'#ccd4d8':'#e6e9eb';ctx.lineWidth=ring===5?1.3:.8;ctx.stroke();
+    const ringRadius=radius*ring/10;
+    ctx.beginPath();
+    for(let i=0;i<count;i++){
+      const angle=start+i*step;
+      const x=center+ringRadius*Math.cos(angle);
+      const y=center+ringRadius*Math.sin(angle);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=ring===5?'#ccd4d8':'#e6e9eb';
+    ctx.lineWidth=ring===5?1.3:.8;
+    ctx.stroke();
   }
-  for(let i=0;i<n;i++){const a=start+i*step;ctx.beginPath();ctx.moveTo(c,c);ctx.lineTo(c+R*Math.cos(a),c+R*Math.sin(a));ctx.strokeStyle='#e0e5e7';ctx.lineWidth=.8;ctx.stroke()}
+
+  for(let i=0;i<count;i++){
+    const angle=start+i*step;
+    ctx.beginPath();
+    ctx.moveTo(center,center);
+    ctx.lineTo(center+radius*Math.cos(angle),center+radius*Math.sin(angle));
+    ctx.strokeStyle='#e0e5e7';
+    ctx.lineWidth=.8;
+    ctx.stroke();
+  }
+
   ctx.beginPath();
-  ITEMS.forEach((item,i)=>{const r=R*scores[item.key]/10,a=start+i*step,x=c+r*Math.cos(a),y=c+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});
-  ctx.closePath();ctx.fillStyle='rgba(74,144,164,.16)';ctx.fill();ctx.strokeStyle='#4A90A4';ctx.lineWidth=2;ctx.stroke();
-  ITEMS.forEach((item,i)=>{const r=R*scores[item.key]/10,a=start+i*step,x=c+r*Math.cos(a),y=c+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fillStyle=item.color;ctx.fill()});
-  ITEMS.forEach((item,i)=>{
-    const a=start+i*step,labelR=R+42,x=c+labelR*Math.cos(a),y=c+labelR*Math.sin(a),direction=Math.cos(a);
-    ctx.textAlign=direction>.3?'right':direction<-.3?'left':'center';
-    ctx.textBaseline='middle';ctx.font='600 12px sans-serif';ctx.fillStyle=item.color;ctx.fillText(item.chartLabel,x,y);
+  ITEMS.forEach((item,index)=>{
+    const valueRadius=radius*scores[item.key]/10;
+    const angle=start+index*step;
+    const x=center+valueRadius*Math.cos(angle);
+    const y=center+valueRadius*Math.sin(angle);
+    index?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(74,144,164,.16)';
+  ctx.fill();
+  ctx.strokeStyle='#4A90A4';
+  ctx.lineWidth=2;
+  ctx.stroke();
+
+  ITEMS.forEach((item,index)=>{
+    const valueRadius=radius*scores[item.key]/10;
+    const angle=start+index*step;
+    const x=center+valueRadius*Math.cos(angle);
+    const y=center+valueRadius*Math.sin(angle);
+    ctx.beginPath();
+    ctx.arc(x,y,4.5,0,Math.PI*2);
+    ctx.fillStyle=item.color;
+    ctx.fill();
+  });
+
+  ITEMS.forEach((item,index)=>{
+    const angle=start+index*step;
+    const x=center+labelRadius*Math.cos(angle);
+    const y=center+labelRadius*Math.sin(angle);
+    const direction=Math.cos(angle);
+    ctx.textAlign=direction>.25?'right':direction<-.25?'left':'center';
+    ctx.textBaseline='middle';
+    ctx.font='600 12px -apple-system,BlinkMacSystemFont,"Yu Gothic",sans-serif';
+    ctx.fillStyle=item.color;
+    ctx.fillText(item.chartLabel,x,y);
   });
 }
 
 function collectResponses(){
-  return ITEMS.map(item=>({
-    ...item,
-    score:Math.max(1,Math.min(10,Number(scores[item.key])||5)),
-    memo:(document.getElementById(`memo-${item.key}`)?.value||'').trim()
-  }));
+  return ITEMS.map(item=>{
+    const rawScore=Number(scores[item.key]);
+    return {
+      ...item,
+      score:Number.isFinite(rawScore)?Math.max(1,Math.min(10,rawScore)):5,
+      memo:(document.getElementById(`memo-${item.key}`)?.value||'').trim()
+    };
+  });
+}
+
+function calculateScoreSummary(responses){
+  const valid=responses.filter(response=>Number.isFinite(response.score));
+  const total=valid.reduce((sum,response)=>sum+response.score,0);
+  const average=valid.length?total/valid.length:0;
+  const max=valid.length?Math.max(...valid.map(response=>response.score)):0;
+  const min=valid.length?Math.min(...valid.map(response=>response.score)):0;
+  const isFlat=max===min;
+  return {
+    total,average,max,min,isFlat,spread:max-min,
+    highestItems:isFlat?[]:valid.filter(response=>response.score===max),
+    lowestItems:isFlat?[]:valid.filter(response=>response.score===min),
+    highItems:valid.filter(response=>response.score>=7).sort((a,b)=>b.score-a.score),
+    allHigh:valid.length>0&&min>=9,
+    allLow:valid.length>0&&max<=3
+  };
 }
 
 function detectSafetyRisk(responses){
-  const text=responses.map(r=>r.memo).join(' ');
-  return /死にたい|消えたい|自殺|自傷|生きていたくない|虐待|暴力を受け|殺されそう/.test(text);
+  return SAFETY_PATTERN.test(responses.map(response=>response.memo).join(' '));
 }
 
-function analyzeResponses(responses){
-  const total=responses.reduce((sum,r)=>sum+r.score,0);
-  const average=total/responses.length;
-  const max=Math.max(...responses.map(r=>r.score));
-  const min=Math.min(...responses.map(r=>r.score));
-  const isFlat=max===min;
-  const withMemo=responses.filter(r=>r.memo.length>0);
-  const ranked=[...responses].sort((a,b)=>b.score-a.score);
-  const highItems=isFlat?[]:ranked.filter(r=>r.score>=7).slice(0,2);
-  let priorityItems=[];
-  if(isFlat){
-    priorityItems=[...withMemo].sort((a,b)=>b.memo.length-a.memo.length).slice(0,2);
-  }else{
-    priorityItems=[...responses]
-      .sort((a,b)=>((11-b.score)*8+Math.min(b.memo.length,120)/8)-((11-a.score)*8+Math.min(a.memo.length,120)/8))
-      .filter(r=>r.score<=6||r.memo.length>=20).slice(0,2);
-  }
-  const fullText=withMemo.map(r=>r.memo).join(' ');
-  const values=[];
-  const valueRules=[
-    [/家族|子ども|子供|旅行/, '家族との時間や経験'],
-    [/成長|挑戦|学び|スキル|マネジメント|育成/, '成長や新しい挑戦'],
-    [/余裕|残業|睡眠|疲れ|休み/, '心と身体の余裕'],
-    [/協力|チーム|人間関係|上司/, '安心して協力できる関係'],
-    [/収入|貯金|お金|副業/, '将来の安心や働き方の選択肢']
+function detectContext(responses){
+  const fullText=responses.map(response=>response.memo).filter(Boolean).join(' ');
+  const possibleContexts=CONTEXT_RULES.filter(rule=>rule.pattern.test(fullText));
+  const tendencies=[];
+  const tendencyRules=[
+    ['perfectionism',/全部できない|完璧|10点でなければ|完璧にできない/],
+    ['blackWhite',/成功か失敗|できるか.*できない|正解でなければ|意味がない/],
+    ['comparison',/周りより|みんなは|自分だけ|人と比べ/],
+    ['lossAversion',/失敗したくない|悪くなるのが怖|間違えたくない/],
+    ['statusQuo',/変えたい.*動けない|一歩踏み出せない|何もできない/],
+    ['othersFirst',/周りの期待|期待に応え|家族のため|人を優先|自分は後回し/],
+    ['continuation',/続かない|三日坊主|計画しても続か/]
   ];
-  valueRules.forEach(([pattern,value])=>{if(pattern.test(fullText)&&!values.includes(value))values.push(value)});
-  if(!values.length&&highItems.length) values.push(...highItems.map(r=>r.value));
-  if(!values.length&&withMemo.length) values.push(withMemo[0].value);
-  return {responses,total,average,max,min,spread:max-min,isFlat,withMemo,highItems,priorityItems,values:values.slice(0,2),allHigh:min>=9,allLow:max<=3,safetyFlag:detectSafetyRisk(responses)};
+  tendencyRules.forEach(([key,pattern])=>{if(pattern.test(fullText)) tendencies.push(key)});
+  return {
+    fullText,
+    possibleContexts,
+    tendencies,
+    emotionalTone:HIGH_STRESS_PATTERN.test(fullText)?'strained':/不安|迷い|気になる|不満|悩/.test(fullText)?'concerned':'neutral',
+    cognitiveLoad:COGNITIVE_LOAD_PATTERN.test(fullText)?'high':'low'
+  };
 }
 
-function buildKeepText(a){
-  if(a.allHigh) return '8つの領域すべてで高い満足度が保たれています。今うまくいっている理由や、日頃自然に続けている工夫を言葉にしておくと、この状態をこれからも大切にしやすくなります。';
-  if(a.highItems.length){
-    const names=a.highItems.map(r=>r.label).join('・');
-    const values=a.values.length?a.values.join('や'):'今の生活で心地よいと感じられること';
-    return `${names}は、現在の満足度が比較的高い領域です。回答からは、${values}を大切にしたい気持ちがうかがえます。そこで自然にできていることは、ほかの領域を整えるときのヒントにもなりそうです。`;
+function memoSpecificity(response){
+  if(!response.memo) return 0;
+  const detail=Math.min(response.memo.length,180)/12;
+  const concern=(/不安|負担|困|疲|悩|迷|不満|できない|つら/.test(response.memo)?8:0);
+  const ideal=(/理想|したい|なりたい|ほしい|目指|増やしたい|減らしたい/.test(response.memo)?8:0);
+  const time=(/今後|将来|年以内|来年|今月|今週/.test(response.memo)?3:0);
+  return detail+concern+ideal+time;
+}
+
+function selectPriorityItems(responses,summary){
+  const selectedKey=prioritySelect.value;
+  const selected=responses.find(response=>response.key===selectedKey);
+  const result=[];
+  if(selected) result.push(selected);
+
+  const ranked=[...responses].sort((a,b)=>{
+    const scoreA=(10-a.score)*5+memoSpecificity(a);
+    const scoreB=(10-b.score)*5+memoSpecificity(b);
+    return scoreB-scoreA;
+  });
+  const candidates=summary.isFlat
+    ? ranked.filter(response=>response.memo.length>0)
+    : ranked.filter(response=>response.score<=6||memoSpecificity(response)>=18);
+
+  for(const response of candidates){
+    if(!result.some(item=>item.key===response.key)) result.push(response);
+    if(result.length===2) break;
   }
-  if(a.values.length) return `自由記述からは、${a.values.join('や')}を大切にしたい気持ちがうかがえます。自分の理想や気がかりを言葉にできていること自体が、次の選択を考えるための大切な土台です。`;
-  return '今回、自分の状態を立ち止まって振り返ったこと自体が大切な一歩です。点数だけで良し悪しを決めず、今できていることや、これからも続けたいことにも目を向けてみましょう。';
+  if(!result.length&&!summary.isFlat&&summary.lowestItems.length) result.push(summary.lowestItems[0]);
+  return result.slice(0,2);
 }
 
-function buildPriorityText(a){
-  if(a.allLow) return '複数の領域で、今は負担や迷いを感じている可能性があります。すべてを一度に変える必要はありません。まずは今いちばん心に残っていることを一つだけ選び、休む・書き出す・信頼できる人に話すなど、負担の少ない方法から整理してみてもよいかもしれません。';
-  if(!a.priorityItems.length) return '8つの領域に大きな点数差はありません。どこかを無理に「改善する項目」と決める必要はなく、今の満足度を1点上げるなら何が変わるか、気になる領域を一つ選んで考えるところから始められます。';
-  return a.priorityItems.map(r=>{
-    if(r.score<=3) return `${r.label}については、今少し負担や迷いを感じているのかもしれません。理想との距離を責めず、まずは一番気になっていることを一つだけ整理してみましょう。`;
-    if(r.score<=6) return `${r.label}は、一定の満足感がある一方で、もう少し整えていきたい思いもありそうです。今保てていることを残しながら、満足度を1点上げる小さな変化を考えてみましょう。`;
-    return `${r.label}は比較的満足度が高い一方で、自由記述からはさらに実現したい理想もあるようです。良い状態を保ちながら、次に増やしたい経験を考えてみてもよいかもしれません。`;
-  }).join('<br><br>');
+function extractStrengths(responses,summary,context){
+  const strengths=[];
+  const add=strength=>{if(strength&&!strengths.includes(strength)) strengths.push(strength)};
+  summary.highItems.slice(0,2).forEach(response=>add(response.strength));
+  const text=context.fullText;
+  if(/家族|子ども|子供|周囲|チーム|協力|相手/.test(text)) add('周囲や身近な人を大切にする姿勢');
+  if(/成長|学び|挑戦|スキル|経験を積/.test(text)) add('新しいことを学ぼうとする姿勢');
+  if(/続け|取り組|頑張|向き合/.test(text)) add('続けて向き合ってきた姿勢');
+  if(/理想|したい|なりたい|ほしい|目指/.test(text)) add('自分の理想を考え、言葉にする力');
+  if(/相談|助け|話したい/.test(text)) add('必要なときに人と一緒に考えようとする力');
+  if(!strengths.length) add('今回、自分の状態を振り返り、言葉にしたこと');
+  return strengths.slice(0,3);
 }
 
-function selectActions(a){
-  if(a.allLow) return ['今週中に10分だけ時間を取り、今気になっていることを3つまで紙に書き、その中から最も負担が少ない一つを選ぶ'];
-  if(!a.priorityItems.length) return ['今週の日曜日に10分だけ、8領域の中から「1点上がるとうれしい項目」を一つ選び、変わっていてほしいことを書く'];
-  const actions=a.priorityItems.map(r=>r.action);
-  if(a.highItems.length) actions.push(`${a.highItems[0].label}で、今うまくいっている理由を一つメモし、続けたい工夫を確認する`);
-  return [...new Set(actions)].slice(0,3);
+function detectValues(responses,summary){
+  const text=responses.map(response=>response.memo).join(' ');
+  const values=[];
+  const add=value=>{if(value&&!values.includes(value)) values.push(value)};
+  [
+    [/家族|子ども|子供|旅行/, '家族との時間や経験'],
+    [/成長|挑戦|学び|スキル|育成/, '成長や新しい挑戦'],
+    [/余裕|睡眠|疲れ|休み|健康/, '心と身体の余裕'],
+    [/協力|チーム|人間関係|上司/, '安心して協力できる関係'],
+    [/収入|貯金|お金|副業/, '将来の安心や働き方の選択肢'],
+    [/自由|自分らし|趣味|楽し/, '自分らしい時間']
+  ].forEach(([pattern,value])=>{if(pattern.test(text)) add(value)});
+  if(!values.length) summary.highItems.slice(0,2).forEach(response=>add(response.value));
+  return values.slice(0,2);
 }
 
-function selectQuestion(a){
-  if(a.priorityItems.length) return a.priorityItems[0].question;
-  if(a.allHigh) return '今の良い状態を大切にしながら、次に挑戦してみたいことは何ですか？';
+function generateActionOptions(analysis){
+  if(analysis.safetyFlag) return [];
+  const actions=[];
+  const add=action=>{if(action&&!actions.includes(action)) actions.push(action)};
+  const has=tendency=>analysis.tendencies.includes(tendency);
+
+  if(analysis.emotionalTone==='strained'){
+    add('今日か明日に5分だけ、今週やらないこと・減らせそうな予定を一つ選び、カレンダーから外してみる');
+    return actions;
+  }
+  if(analysis.cognitiveLoad==='high'){
+    add('今週中に5分だけ、気になっていることを紙に三つまで書き、その中から最も負担の少ない一つを選ぶ');
+  }
+  if(has('continuation')){
+    add('夕食後など、いつもの行動の直後に5分だけ試し、できたら一度チェックを付ける');
+  }
+  if(analysis.allHigh){
+    add('今週の日曜日に10分だけ、今うまくいっていることを三つまで書き、続けたい工夫を一つ選ぶ');
+    add('今月中に一度、次に挑戦してみたいことを一つメモする');
+    return actions.slice(0,3);
+  }
+  if(analysis.allLow){
+    add('今週中に5分だけ、今いちばん気になっていることを一つ書き、休む・減らす・話すの中から一番負担の少ない方法を選ぶ');
+    return actions.slice(0,1);
+  }
+
+  analysis.priorityItems.forEach((response,index)=>{
+    if(response.key==='relation'&&/上司|同僚|人間関係|チーム|家族|友人/.test(response.memo)){
+      add('今週10分だけ、「私は〜と感じています。できれば〜してもらえると助かります」の形で、伝えたい希望を一文にしてみる');
+      return;
+    }
+    if(response.score<=3) add(response.lowAction);
+    else if(response.score<=6){
+      response.midActions.slice(0,index===0?2:1).forEach(add);
+    }else add(response.keepAction);
+  });
+
+  if(!actions.length){
+    add('今週の日曜日に10分だけ、8領域から「1点上がるとうれしい項目」を一つ選び、変わっていてほしいことを書く');
+  }
+  return actions.slice(0,3);
+}
+
+function selectReflectionQuestion(analysis){
+  const has=tendency=>analysis.tendencies.includes(tendency);
+  if(has('perfectionism')||has('blackWhite')) return 'すべてではなく、一つだけ整えるとしたら、何を選びますか？';
+  if(has('comparison')) return 'ほかの人ではなく、今の自分にとって心地よい状態はどのような状態ですか？';
+  if(has('othersFirst')) return '周囲への配慮と同じように、自分の希望も一つ選ぶとしたら何ですか？';
+  if(analysis.cognitiveLoad==='high') return 'やめる、減らす、任せるとしたら、何を一つ選びますか？';
+  if(analysis.priorityItems.length) return analysis.priorityItems[0].question;
+  if(analysis.allHigh) return '今の良い状態を大切にしながら、次に挑戦してみたいことは何ですか？';
   return '満足度が1点上がるとしたら、日常の何が少し変わっていますか？';
 }
 
-function buildConsultationCTA(a){
-  const topics=a.priorityItems.map(r=>r.topic).slice(0,2);
-  if(a.allHigh) return '今回の診断から、現在の生活の中で大切にできていることが多くあることがうかがえます。個別面談では、今うまくいっていることを整理しながら、これから挑戦したいことや、さらに充実させたいことも一緒に考えます。今の良い状態を大切にしながら、次に目指したいことを言葉にしてみませんか。ぜひ、個別面談で、これからの理想についてもお話ししましょう！';
-  if(!topics.length) return '今回の診断で見えてきたことを、一人でもう少し考えてみることも大切です。一方で、自分のことだからこそ、何から整理すればよいか分からなくなることもあります。個別面談では、今回の回答をもとに、大切にしたいことや最初の一歩を一緒に整理します。まだ悩みがまとまっていなくても大丈夫です。ぜひ、個別面談で、今回見えてきた悩みや理想についてもお話ししましょう！';
-  return `今回の診断から、${topics.join('、')}について、少し立ち止まって考えたい気持ちがうかがえます。一人で考えていると、どこから整理すればよいか迷うこともあります。個別面談では、これまでの経験や大切にしたいことを伺いながら、今後の選択肢と最初の一歩を一緒に整理します。まだ転職すると決めていなくても大丈夫です。ぜひ、個別面談で、${topics.join('や')}についてもお話ししましょう！`;
+function selectConsultationTopics(analysis){
+  if(analysis.allHigh) return ['これから実現したい理想','次に挑戦したいこと'];
+  const topics=analysis.priorityItems.map(response=>response.topic);
+  if(!topics.length) return ['大切にしたいこと','最初に整えるテーマ'];
+  return [...new Set(topics)].slice(0,2);
 }
 
-function renderSafetyAdvice(a){
+function analyzeResponses(responses){
+  const summary=calculateScoreSummary(responses);
+  const context=detectContext(responses);
+  const priorityItems=selectPriorityItems(responses,summary);
+  const analysisResult={
+    responses,
+    averageScore:summary.average,
+    totalScore:summary.total,
+    highestItems:summary.highestItems,
+    lowestItems:summary.lowestItems,
+    highItems:summary.highItems,
+    priorityItems,
+    spread:summary.spread,
+    isFlat:summary.isFlat,
+    allHigh:summary.allHigh,
+    allLow:summary.allLow,
+    strengths:extractStrengths(responses,summary,context),
+    values:detectValues(responses,summary),
+    possibleContexts:context.possibleContexts,
+    tendencies:context.tendencies,
+    emotionalTone:context.emotionalTone,
+    cognitiveLoad:context.cognitiveLoad,
+    suggestedActions:[],
+    reflectionQuestion:'',
+    consultationTopics:[],
+    safetyFlag:detectSafetyRisk(responses)
+  };
+  analysisResult.suggestedActions=generateActionOptions(analysisResult);
+  analysisResult.reflectionQuestion=selectReflectionQuestion(analysisResult);
+  analysisResult.consultationTopics=selectConsultationTopics(analysisResult);
+  return analysisResult;
+}
+
+function buildCombinationInsight(analysis){
+  const byKey=Object.fromEntries(analysis.responses.map(response=>[response.key,response]));
+  if(byKey.career.score>=8&&(byKey.health.score<=3||byKey.family.score<=3)){
+    return '仕事に力を注げている一方で、自分の回復や家族との時間も、無理なく働き続けるために少し整えたい時期なのかもしれません。';
+  }
+  if(byKey.career.score<=3&&byKey.growth.score<=4){
+    return '今の仕事だけで答えを急いで決めるより、これから経験したいことや身につけたいことから、働き方の基準を整理する方法もあります。';
+  }
+  if(byKey.career.score<=4&&byKey.finance.score<=4){
+    return '働き方と収入の両方が気になっている場合は、転職するかどうかを急ぐより、安心して選べる条件を一つずつ言葉にしていくことが役立ちそうです。';
+  }
+  if(byKey.health.score<=3&&byKey.env.score<=4){
+    return '心身の余裕と生活環境は影響し合うことがあります。まずは一日の中で負担が大きい場面を一つに絞って見直すと、考えやすくなりそうです。';
+  }
+  if(byKey.family.score<=3&&byKey.fun.score<=3){
+    return '家族との時間や自分の楽しみを増やしたい気持ちがあるなら、予定を増やす前に、今週減らせることを一つ探す方法もあります。';
+  }
+  return '';
+}
+
+function scoreGuidance(response){
+  if(response.score<=3) return SCORE_GUIDANCE.low;
+  if(response.score<=6) return SCORE_GUIDANCE.middle;
+  if(response.score<=8) return SCORE_GUIDANCE.high;
+  return SCORE_GUIDANCE.veryHigh;
+}
+
+function buildAdviceText(analysis){
+  let opening='忙しい中でも、8つの領域について立ち止まって振り返ったことは、とても大切な一歩です。この点数は性格や能力を評価するものではなく、今の自分に合う次の一歩を見つけるための目安です。';
+  if(analysis.allHigh){
+    opening+='全体として高い満足度が保たれており、今の生活で大切にできていることが多くあるようです。';
+  }else if(analysis.allLow){
+    opening+='今は複数のことが重なり、少し余裕を持ちにくい時期なのかもしれません。点数は自分を責める材料ではなく、負担を減らす場所を見つける手がかりです。';
+  }else if(analysis.isFlat){
+    opening+=`8領域はすべて${analysis.responses[0].score}点でした。最高・最低を無理に作らず、生活全体を見渡しながら、次に少し整えたいことを探していきましょう。`;
+  }else{
+    opening+=`全体の平均は${analysis.averageScore.toFixed(1)}点で、領域間には${analysis.spread}点の幅がありました。この差は良し悪しではなく、今力を注げていることと、余白をつくりたいことを知る手がかりです。`;
+  }
+
+  let keep='';
+  if(analysis.allHigh){
+    keep='8つの領域で、今のあなたに合う工夫を続けられているようです。何が良い状態につながっているかを言葉にすると、これからも保ちやすくなります。最近うまくいった具体的な場面を振り返ると、ほかの領域や次の挑戦にも活かせるヒントが見つかりそうです。';
+  }else{
+    const highNames=analysis.highItems.slice(0,2).map(response=>response.label);
+    if(highNames.length) keep+=`${highNames.join('・')}では、今できていることや保てていることがありそうです。`;
+    keep+=`回答からは、${analysis.strengths.join('、')}がうかがえます。`;
+    if(analysis.values.length) keep+=`${analysis.values.join('や')}を大切にしたい気持ちも、これからの選択を考える土台になりそうです。`;
+    keep+='最近少し楽だった日や、自然に続けられたことを一つ思い出すと、今すでに持っている力を具体的に確認できます。';
+  }
+
+  let focus='';
+  if(analysis.allHigh){
+    focus='今の良い状態を無理なく維持しながら、これからさらに充実させたいことを一つ選んでみましょう。大きな目標をすぐに決める必要はなく、興味のあることを一度試す、続けたい習慣を予定に残すなど、今の生活に合う方法から選べます。';
+  }else if(analysis.allLow){
+    focus='すべてを一度に変える必要はありません。まずは今いちばん心に残っていることを一つだけ選び、休む、負担を一つ減らす、信頼できる人に話すなど、最も負担の少ない方法から始めてみましょう。';
+  }else if(!analysis.priorityItems.length){
+    focus='大きな点数差はないため、低い領域を無理に作る必要はありません。今より1点上がるとうれしい領域を一つ選び、休む時間を増やす、気になることを書き出す、誰かに話すなど、取り組みやすい方法を選んでみてください。';
+  }else{
+    focus=analysis.priorityItems.map(response=>{
+      const memoNote=response.memo
+        ? `自由記述からは、${response.value}を大切にしながら、今より心地よい状態に近づきたい思いがうかがえます。`
+        : '自由記述が空欄でも、点数だけを手がかりに、無理のない範囲で考えていけます。';
+      return `${response.label}は${response.score}点でした。${scoreGuidance(response)}${memoNote}`;
+    }).join(' ');
+  }
+  const combination=buildCombinationInsight(analysis);
+  if(combination) focus+=combination;
+  if(analysis.tendencies.includes('perfectionism')||analysis.tendencies.includes('blackWhite')) focus+='できている部分と、これから整えたい部分の両方があって自然です。すべてを一度に整える必要はありません。';
+  if(analysis.tendencies.includes('comparison')) focus+='ほかの人ではなく、今の自分にとって心地よい状態を基準にしてみましょう。';
+  if(analysis.tendencies.includes('othersFirst')) focus+='周囲を大切にしてきたからこそ、自分の希望を考える時間が少なくなっていた可能性もあります。';
+  if(analysis.tendencies.includes('lossAversion')) focus+='大きく変えるのではなく、元に戻せる小さな試し方から始めることもできます。';
+  if(analysis.tendencies.includes('statusQuo')) focus+='今の生活をすべて変えず、小さな選択肢を一つ加えるところから始められます。';
+  focus+='理想との距離が見えても、それは責める材料ではありません。今保てていることを残しながら、今週の生活に無理なく加えられる変化を選んでみてください。';
+
+  return {
+    opening,
+    keep,
+    focus,
+    actions:analysis.suggestedActions,
+    question:analysis.reflectionQuestion,
+    closing:'すべてを一度に変える必要はありません。今回見つけた小さな一歩を、自分に合うペースで一度だけ試してみてください。続けにくかった場合も、意思の問題ではなく、方法やタイミングが今の生活に合っていなかった可能性があります。自分に合う方法を知るための情報として、無理のない形に変えていきましょう。今できていることにも目を向けながら、少しずつ自分に合う選択肢を増やしていけば大丈夫です。'
+  };
+}
+
+function buildConsultationCTA(analysis){
+  const topics=analysis.consultationTopics;
+  if(analysis.allHigh){
+    return '今回の診断から、現在の生活の中で大切にできていることが多くあることがうかがえます。自分のことだからこそ、次に何を目指したいのか言葉にしにくいこともあります。個別面談では、今うまくいっていることを整理しながら、これから実現したい理想や次に挑戦したいことを一緒に考えます。今すぐ明確な答えが出ていなくても大丈夫です。今の良い状態を大切にしながら、これからの理想についてお話ししましょう！';
+  }
+  return `今回の診断に取り組み、今の状態を言葉にしたことは大切な一歩です。自分のことだからこそ、何から整理すればよいか分からなくなることもあります。個別面談では、今回の回答をもとに、${topics.join('や')}について、状況や理想に合わせて一緒に整理していきます。今すぐ答えが出ていなくても、焦らなくて大丈夫です。ぜひ、今回見えてきた悩みや理想についてもお話ししましょう！`;
+}
+
+function renderAdviceResult(advice,cta,analysis){
+  const actionItems=advice.actions.map(action=>`<li>${action}。まずは一度だけ試し、合わなければ方法やタイミングを変えてみても大丈夫です。</li>`).join('');
+  const ctaHeading=analysis.allHigh?'これからをさらに考えてみたい方へ':'もう少し整理してみたい方へ';
+  document.getElementById('advice').innerHTML=`
+    <h2 class="advice-title">あなたへのアドバイス</h2>
+    <div class="advice-section"><h3>今回の診断を終えて</h3><p>${advice.opening}</p></div>
+    <div class="advice-section"><h3>今のあなたが大切にできていること</h3><p>${advice.keep}</p></div>
+    <div class="advice-section"><h3>これから少し整えていきたいこと</h3><p>${advice.focus}</p></div>
+    <div class="advice-section"><h3>まず試してみること</h3><ul>${actionItems}</ul></div>
+    <div class="advice-section reflection"><h3>自分への問いかけ</h3><p>${advice.question}</p></div>
+    <div class="advice-section"><h3>最後に</h3><p>${advice.closing}</p></div>
+    <div class="consultation"><h3>${ctaHeading}</h3><p>${cta}</p><button class="consultation-btn" id="consultation-button" type="button">個別面談を申し込む</button><p class="consultation-note">まだ転職すると決めていない方もご相談いただけます。今のお悩みがまとまっていなくても大丈夫です。</p></div>`;
+  document.getElementById('consultation-button')?.addEventListener('click',()=>{
+    if(CONSULTATION_URL) window.open(CONSULTATION_URL,'_blank','noopener');
+    else window.alert('個別面談の申込URLは現在準備中です。公式LINEから「個別面談希望」とお送りください。');
+  });
+}
+
+function renderSafetyAdvice(){
   document.getElementById('advice').innerHTML=`
     <h2 class="advice-title">今回の診断を終えて</h2>
-    <div class="advice-section"><p>自分の状態を言葉にしてくださったことは、とても大切な一歩です。記入内容から、今は強い苦痛や危険を感じている可能性があります。</p></div>
-    <div class="advice-section"><h3>今、優先してほしいこと</h3><p>一人で抱え込まず、まずは身近で信頼できる人や、医療機関・地域の相談窓口などの専門的な支援へつながることを優先してください。差し迫った危険がある場合は、地域の緊急窓口を利用してください。ここで無理に答えや行動計画を決める必要はありません。</p></div>`;
+    <div class="advice-section"><p>つらい状態を言葉にしてくださったことは、とても大切です。今は、通常の振り返りやキャリアの行動を考えることより、安全と心身の負担を少しでも減らすことを優先してください。</p></div>
+    <div class="advice-section"><h3>今、優先してほしいこと</h3><p>一人で抱え込まず、今日中に、身近で信頼できる人へ今の状態を伝えてください。医療機関や地域の相談窓口など、専門的な支援につながることも大切です。</p><p>差し迫った危険がある場合は、安全な場所へ移動し、地域の警察・救急などの緊急窓口を利用してください。ここで無理に答えや行動計画を決める必要はありません。</p></div>`;
 }
 
 function updateAdvice(){
-  const a=analyzeResponses(collectResponses());
-  document.getElementById('total').textContent=a.total;
-  document.getElementById('total-sub').textContent=`平均 ${a.average.toFixed(1)} 点`;
-  if(a.safetyFlag){renderSafetyAdvice(a);return}
-  const trend=a.isFlat
-    ? `8つの領域はすべて${a.min}点でした。今は特定の項目だけを評価するより、生活全体を見渡しながら考えるタイミングなのかもしれません。`
-    : `全体の平均は${a.average.toFixed(1)}点で、項目間には${a.spread}点の幅がありました。この差は良し悪しではなく、今の生活で力を注げていることと、少し余白をつくりたいことを知る手がかりです。`;
-  const actions=selectActions(a).map(action=>`<li>${action}。まずは一度だけ試し、合わなければ方法やタイミングを変えてみましょう。</li>`).join('');
-  const button=CONSULTATION_URL?`<a class="consultation-btn" href="${CONSULTATION_URL}" target="_blank" rel="noopener">個別面談で相談する</a>`:'';
-  document.getElementById('advice').innerHTML=`
-    <h2 class="advice-title">あなたへのアドバイス</h2>
-    <div class="advice-section"><h3>今回の診断を終えて</h3><p>忙しい中でも、自分の状態を振り返ろうとしたことは、とても大切な一歩です。${trend}</p></div>
-    <div class="advice-section"><h3>今のあなたが大切にできていること</h3><p>${buildKeepText(a)}</p></div>
-    <div class="advice-section"><h3>これから少し整えていきたいこと</h3><p>${buildPriorityText(a)}</p></div>
-    <div class="advice-section"><h3>まず試してみること</h3><ul>${actions}</ul></div>
-    <div class="advice-section reflection"><h3>自分への問いかけ</h3><p>${selectQuestion(a)}</p></div>
-    <div class="advice-section"><h3>最後に</h3><p>すべてを一度に変える必要はありません。今回見つけた小さな一歩を、自分に合うペースで試してみてください。うまくいかない日があっても、それは後戻りではなく、自分に合う方法を知っていく途中です。</p></div>
-    <div class="consultation"><h3>もう少し整理してみたい方へ</h3><p>${buildConsultationCTA(a)}</p>${button}<p class="consultation-note">まだ転職すると決めていない方もご相談いただけます。今のお悩みがまとまっていなくても大丈夫です。</p></div>`;
+  const analysis=analyzeResponses(collectResponses());
+  document.getElementById('total').textContent=analysis.totalScore;
+  document.getElementById('total-sub').textContent=`平均 ${analysis.averageScore.toFixed(1)} 点`;
+  if(analysis.safetyFlag){
+    renderSafetyAdvice();
+    return;
+  }
+  const advice=buildAdviceText(analysis);
+  const cta=buildConsultationCTA(analysis);
+  renderAdviceResult(advice,cta,analysis);
+}
+
+function includeAdviceInSavedResult(){
+  updateAdvice();
+  document.querySelectorAll('.memo').forEach(element=>{
+    element.style.height='auto';
+    element.style.height=`${element.scrollHeight+4}px`;
+  });
 }
 
 let printHeights=[];
 window.addEventListener('beforeprint',()=>{
-  printHeights=[...document.querySelectorAll('.memo')].map(el=>el.style.height);
-  document.querySelectorAll('.memo').forEach(el=>{el.style.height='auto';el.style.height=`${el.scrollHeight+4}px`});
+  printHeights=[...document.querySelectorAll('.memo')].map(element=>element.style.height);
+  includeAdviceInSavedResult();
 });
-window.addEventListener('afterprint',()=>document.querySelectorAll('.memo').forEach((el,i)=>el.style.height=printHeights[i]||''));
+window.addEventListener('afterprint',()=>{
+  document.querySelectorAll('.memo').forEach((element,index)=>{element.style.height=printHeights[index]||''});
+});
 
-drawWheel();updateAdvice();
+window.__lifeWheelForTesting={
+  ITEMS,collectResponses,calculateScoreSummary,detectContext,extractStrengths,
+  selectPriorityItems,generateActionOptions,selectReflectionQuestion,
+  selectConsultationTopics,detectSafetyRisk,analyzeResponses,buildAdviceText,
+  buildConsultationCTA,renderAdviceResult,includeAdviceInSavedResult
+};
+
+drawWheel();
+updateAdvice();
 </script>
 </body>
 </html>
