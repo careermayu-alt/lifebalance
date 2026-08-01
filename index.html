@@ -40,6 +40,10 @@
   .priority-box label { display:block; margin-bottom:5px; color:#3d6670; font-size:13px; font-weight:700; }
   .priority-box p { margin:0 0 10px; color:#7b8790; font-size:11px; line-height:1.6; }
   .priority-box select { width:100%; min-height:42px; padding:8px 36px 8px 12px; border:1px solid #cfdadd; border-radius:7px; background:white; color:var(--ink); font:13px inherit; }
+  [hidden] { display:none !important; }
+  .diagnose-btn { width:100%; min-height:54px; margin:4px 0 20px; padding:14px 22px; border:0; border-radius:10px; background:#3f7e8d; color:white; font:700 16px inherit; cursor:pointer; box-shadow:0 4px 12px rgba(63,126,141,.18); transition:.15s; }
+  .diagnose-btn:hover { background:#336d7a; transform:translateY(-1px); }
+  .diagnose-btn:focus-visible { outline:3px solid #b8dbe2; outline-offset:3px; }
   .total-bar { margin-top:30px; padding:18px 20px; border:1px solid var(--line); border-radius:10px; background:white; }
   .total-label { margin-bottom:4px; color:#8d979e; font-size:12px; }
   .total-value { font-size:30px; font-weight:700; }
@@ -94,7 +98,7 @@
     .wheel-wrap { width:310px; }
     .item { break-inside:avoid; margin-bottom:12px; }
     .memo { min-height:34px; }
-    .print-btn,.print-note { display:none; }
+    .diagnose-btn,.print-btn,.print-note { display:none; }
     .priority-box,.advice-section,.consultation,.save-guide { break-inside:avoid; }
   }
 </style>
@@ -123,6 +127,8 @@
           <option value="">まだ決めていない</option>
         </select>
       </div>
+      <button class="diagnose-btn" id="diagnose-button" type="button">診断結果を見る</button>
+      <div id="result-section" hidden>
       <div class="total-bar">
         <div class="total-label">合計スコア</div>
         <div class="total-value"><span id="total">40</span><span class="total-max"> / 80点</span></div>
@@ -138,6 +144,7 @@
         <button class="print-btn" type="button" onclick="window.print()">診断結果を印刷・PDFで保存する</button>
         <div class="print-note">保存画面で「PDFとして保存」を選択してください</div>
       </aside>
+      </div>
     </section>
   </div>
 </main>
@@ -254,6 +261,9 @@ const COGNITIVE_LOAD_PATTERN=/考えることが多|何から始め|計画して
 const scores=Object.fromEntries(ITEMS.map(item=>[item.key,5]));
 const sliders=document.getElementById('sliders');
 const prioritySelect=document.getElementById('priority-select');
+const resultSection=document.getElementById('result-section');
+const diagnoseButton=document.getElementById('diagnose-button');
+let resultVisible=false;
 
 ITEMS.forEach(item=>{
   const option=document.createElement('option');
@@ -288,6 +298,13 @@ ITEMS.forEach(item=>{
   memo.addEventListener('input',updateAdvice);
 });
 prioritySelect.addEventListener('change',updateAdvice);
+diagnoseButton.addEventListener('click',()=>{
+  resultVisible=true;
+  resultSection.hidden=false;
+  updateAdvice();
+  diagnoseButton.textContent='診断結果を更新する';
+  resultSection.scrollIntoView({behavior:'smooth',block:'start'});
+});
 
 function drawWheel(){
   const canvas=document.getElementById('wheel');
@@ -695,6 +712,7 @@ function renderSafetyAdvice(){
 }
 
 function updateAdvice(){
+  if(!resultVisible) return;
   const analysis=analyzeResponses(collectResponses());
   document.getElementById('total').textContent=analysis.totalScore;
   document.getElementById('total-sub').textContent=`平均 ${analysis.averageScore.toFixed(1)} 点`;
@@ -732,7 +750,6 @@ window.__lifeWheelForTesting={
 };
 
 drawWheel();
-updateAdvice();
 </script>
 </body>
 </html>
